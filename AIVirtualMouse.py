@@ -14,6 +14,10 @@ detector = htm.HandDetector(maxHands=1)
 
 while True:
     # TODO: 1. Find hand LandMarks
+    success, img = cap.read()
+    img = detector.findHands(img)
+    lmList, bbox = detector.findPosition(img)
+    
     # TODO: 2. Get the tip of the index and middle fingers
     # TODO: 3. Check which fingers are up
     # TODO: 4. Only index finger: Moving mode
