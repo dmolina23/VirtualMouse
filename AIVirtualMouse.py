@@ -13,17 +13,17 @@ pTime = 0
 detector = htm.HandDetector(maxHands=1)
 
 while True:
-    # TODO: 1. Find hand LandMarks
+    # 1. Find hand LandMarks
     success, img = cap.read()
     img = detector.findHands(img)
     lmList, bbox = detector.findPosition(img)
 
-    # TODO: 2. Get the tip of the index and middle fingers
+    # 2. Get the tip of the index and middle fingers
     if len(lmList) != 0:
         x1, y1 = lmList[8][1:]
         x2, y2 = lmList[12][1:]
         # print(x1, y1, x2, y2)
-        
+
     # TODO: 3. Check which fingers are up
     # TODO: 4. Only index finger: Moving mode
     # TODO: 5. Convert coordinates
@@ -32,13 +32,14 @@ while True:
     # TODO: 8. Both index and middle fingers: Click mode
     # TODO: 9. Find distance between fingers
     # TODO: 10. Click mouse if distance is short
-    # TODO: 11. Frame Rate
+    
+    # 11. Frame Rate
     cTime = time.time()
     fps = 1 / (cTime - pTime)
     pTime = cTime
     cv2.putText(img, str(int(fps)), (20, 50), cv2.FONT_HERSHEY_PLAIN, 3,
                 (255, 0, 0), 3)
 
-    # TODO: 12. Display
+    # 12. Display
     cv2.imshow("Image", img)
     cv2.waitKey(1)
