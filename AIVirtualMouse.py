@@ -6,6 +6,7 @@ import autopy
 
 # Variables
 wCam, hCam = 640, 480
+frameR = 100 # Frame Reduction
 cap = cv2.VideoCapture(0)  # 0 is the id of our webcam (i only have one)
 cap.set(3, wCam)
 cap.set(4, hCam)
@@ -24,7 +25,12 @@ while True:
         x2, y2 = lmList[12][1:]
         # print(x1, y1, x2, y2)
 
-    # TODO: 3. Check which fingers are up
+        # 3. Check which fingers are up
+        fingers = detector.fingersUp() # See HandTrackingModule.py
+        # print(fingers)
+        cv2.rectangle(img, (frameR, frameR), (wCam - frameR, hCam - frameR),
+            (255, 0, 255), 2)
+    
     # TODO: 4. Only index finger: Moving mode
     # TODO: 5. Convert coordinates
     # TODO: 6. Smoothen values
