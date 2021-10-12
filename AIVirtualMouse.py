@@ -19,6 +19,11 @@ while True:
     lmList, bbox = detector.findPosition(img)
 
     # TODO: 2. Get the tip of the index and middle fingers
+    if len(lmList) != 0:
+        x1, y1 = lmList[8][1:]
+        x2, y2 = lmList[12][1:]
+        # print(x1, y1, x2, y2)
+        
     # TODO: 3. Check which fingers are up
     # TODO: 4. Only index finger: Moving mode
     # TODO: 5. Convert coordinates
