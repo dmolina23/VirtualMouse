@@ -7,11 +7,15 @@ import autopy
 # Variables
 wCam, hCam = 640, 480
 frameR = 100 # Frame Reduction
+smoothening = 7
 cap = cv2.VideoCapture(0)  # 0 is the id of our webcam (i only have one)
 cap.set(3, wCam)
 cap.set(4, hCam)
 pTime = 0
+plocX, plocY = 0, 0
+clocX, clocY = 0, 0
 detector = htm.HandDetector(maxHands=1)
+wScr, hScr = autopy.screen.size()
 
 while True:
     # 1. Find hand LandMarks
@@ -31,13 +35,22 @@ while True:
         cv2.rectangle(img, (frameR, frameR), (wCam - frameR, hCam - frameR),
             (255, 0, 255), 2)
     
-    # TODO: 4. Only index finger: Moving mode
-    # TODO: 5. Convert coordinates
-    # TODO: 6. Smoothen values
-    # TODO: 7. Move Mouse
-    # TODO: 8. Both index and middle fingers: Click mode
-    # TODO: 9. Find distance between fingers
-    # TODO: 10. Click mouse if distance is short
+        # 4. Only index finger: Moving mode
+        if fingers[1] == 1 and fingers[2] == 0:
+            # 5. Convert coordinates
+            x3 = np.interp(x1, (frameR, wCam - frameR), (0, wScr))
+            y3 = np.interp(y1, (frameR, hCam - frameR), (0, hScr))
+            # 6. Smoothen values
+            clocX = plocX + (x3 - plocX) / smoothening
+            clocY = plocY + (y3 - plocY) / smoothening
+            # 7. Move Mouse
+            autopy.mouse.move(wScr - clocX, clocY)
+            cv2.circle(img, (x1, y1), 15, (255, 0, 255), cv2.FILLED)
+            plocX, plocY = clocX , clocY
+
+        # TODO: 8. Both index and middle fingers: Click mode
+        # TODO: 9. Find distance between fingers
+        # TODO: 10. Click mouse if distance is short
     
     # 11. Frame Rate
     cTime = time.time()
